@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="./assets/css/all.css" rel="stylesheet">
+  <link rel="stylesheet" href="./styles/custom.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+  <link rel="icon" type="ico" href="./img/favicon.ico"/>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <title>Franco | Petshop</title>
+</head>
+
+<body class="d-flex flex-column justify-content-between">
+  <div id="app">
+    <!-- HEADER MOBILE -->
+    <header class=" d-flex d-lg-none flex-wrap justify-content-around  sticky-top ">
+      <div class="divLogo2">
+        <a href="./index.html" title="Inicio"><img src="./img/logoresponsive.png" alt="logo"></a>
+      </div>
+      <div id="iconos-header" class="d-flex">
+        <!-- Login -->
+        <button type="button" class="btn me-3" title="Perfil"><a href="#"><i class="fa-solid fa-user"></i></a></button>
+        <!-- Fav -->
+        <button class="btn me-3" type="button" title="Favoritos" data-bs-toggle="offcanvas"
+          data-bs-target="#offcanvasFavoritos" aria-controls="offcanvasRight"><i class="fa-solid fa-heart"></i></button>
+        <!-- Carrito -->
+        <button class="btn me-3" type="button" title="Carrito de Compras" data-bs-toggle="offcanvas"
+          data-bs-target="#offcanvasCarrito" aria-controls="offcanvasRight">
+          <i class="fa-solid fa-basket-shopping"></i> <span class="badge bg-secondary">{{contadorProductos()}}</span>
+        </button>
+      </div>
+      <nav class="navbar navbar-dark col-12 ">
+        <div class="container-fluid d-flex justify-content-center">
+          <button class="navbar-toggler col-12" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse pt-2" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+              <li class="nav-item ps-2 pe-2">
+                <form class=" d-flex">
+                  <!-- Search -->
+                  <input type="search" class="form-control" placeholder="Buscar..." aria-label="Search"
+                    spellcheck="false" data-ms-editor="true" v-model="buscar">
+                  <!-- Boton Search -->
+                  <button type="button" class="btn btn-primary" v-on:click="buscador()"
+                    onclick="location.href='./resultado-busqueda.html'"><i
+                      class="fa-solid fa-magnifying-glass"></i></button>
+                  <!-- <div class="d-none">{{buscador}}</div> -->
+                </form>
+              </li>
+              <li class="nav-item dropdown d-flex justify-content-around">
+                <a class="navbar-brand align-items-center" style="font-size: 18px; color: white;"
+                  href="./juguetes.html">Juguetes</a>
+                <a class="navbar-brand align-items-center" style="font-size: 18px; color: white;"
+                  href="./farmacia.html">Farmacia</a>
+                <a class="navbar-brand align-items-center" style="font-size: 18px; color: white;"
+                  href="./contacto.html">Contacto</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+    </header>
+
+    <header class="d-none d-lg-flex flex-wrap align-items-center justify-content-center sticky-top ">
+      <!-- Primera parte del Header -->
+      <div id="navHeader" class="d-flex gap-5">
+        <!-- Logo / boton de inicio -->
+        <div class="divLogo">
+          <a href="./index.html" title="Inicio"><img src="./img/LOGO.png" alt="logo"></a>
+        </div>
+        <!-- Producto / Contacto -->
+        <div class="d-flex flex-row justify-content-around align-items-center">
+          <!-- Dropdown productos -->
+          <div>
+            <ul class="navbar-nav">
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle me-5" href="#" id="navbarDarkDropdownMenuLink" role="button"
+                  data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 18px; color: white;">Productos</a>
+                <!-- Botones del Dropdown -->
+                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                  <li><a class="dropdown-item" href="./juguetes.html">Juguetes</a></li>
+                  <li><a class="dropdown-item" href="./farmacia.html">Farmacia</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <!-- Contacto -->
+          <div>
+            <a class="navbar-brand align-items-center" style="font-size: 18px; color: white;"
+              href="./contacto.html">Contacto</a>
+          </div>
+        </div>
+        <!-- Div del Search -->
+        <div class="d-flex justify-content-center align-items-center">
+          <form class=" d-flex">
+            <!-- Search -->
+            <input type="search" class="form-control" placeholder="Buscar..." aria-label="Search" spellcheck="false"
+              data-ms-editor="true" v-model="buscar">
+            <!-- Boton Search -->
+            <button type="button" class="btn btn-primary" v-on:click="buscador()"
+              onclick="location.href='./resultado-busqueda.html'"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <!-- <div class="d-none">{{buscador}}</div> -->
+          </form>
+        </div>
+
+        <!-- Botones: Fav, Carrito, Login -->
+        <div id="iconos-header" class="d-flex justify-content-center align-items-center">
+          <!-- Login -->
+          <button type="button" class="btn me-3" title="Perfil"><a href="#"><i
+                class="fa-solid fa-user"></i></a></button>
+          <!-- Fav -->
+          <button class="btn me-3" type="button" title="Favoritos" data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasFavoritos" aria-controls="offcanvasRight"><i
+              class="fa-solid fa-heart"></i></button>
+          <!-- Carrito -->
+          <button class="btn me-3" type="button" title="Carrito de Compras" data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasCarrito" aria-controls="offcanvasRight">
+            <i class="fa-solid fa-basket-shopping"></i> <span class="badge bg-secondary">{{contadorProductos()}}</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+
+    <main class="flex-grow-1">
+      <div class="container d-lg-flex">
+        <div class="container col-lg-6 col-12 ">
+          <div class="row">
+            <div class="col-lg-6 mx-auto p-4 m-5 border-light shadow-sm">
+              <h3 class="pb-3">Acceder </h3>
+              <div class="form-style">
+                <form @submit.prevent>
+                  <div class="form-group pb-3">
+                    <label for="inputMail21">Email *</label>
+                    <input type="email" placeholder="Email" class="form-control" id="inputMail21"
+                      aria-describedby="emailHelp" v-model="user" required>
+                  </div>
+                  <div class="form-group pb-3">
+                    <label for="inputPassword21">Contraseña *</label>
+                    <input type="password" placeholder="Password" class="form-control" id="inputPassword21"
+                      v-model="user_pw" required>
+                  </div>
+                  <div class="d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center"><input name="" type="checkbox" value="" /> <span
+                        class="ps-1 font-weight-bold">Recordar</span></div>
+                    <div><a href="#">¿Olvidaste la contraseña?</a></div>
+                  </div>
+                  <div v-if="user != '' &&  user_pw !='' " class="pb-2">
+                    <button type="submit" class="btn btn-dark w-100 font-weight-bold text-light mt-2"
+                      onclick="location.href='./index.html'">Ingresar</button>
+                  </div>
+                  <div v-else class="pb-2">
+                    <button type="submit" class="btn btn-dark w-100 font-weight-bold text-light mt-2"
+                      disabled>Ingresar</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div v-if="!registrado" class="container col-lg-6 col-12 ">
+          <div class="row">
+            <div class="col-lg-6 mx-auto p-4 m-5 border-light shadow-sm">
+              <h3 class="pb-3">Registrarme</h3>
+              <div class="form-style">
+                <form @submit.prevent>
+                  <div class="form-group pb-3 ">
+                    <label for="inputEmail2">Email *</label>
+                    <input type="email" placeholder="Email" class="form-control" id="inputEmail2"
+                      aria-describedby="emailHelp" v-model="registrar_user_email">
+                  </div>
+                  <div class="form-group pb-3">
+                    <label for="inputPassword1">Nombre *</label>
+                    <input type="text" placeholder="Nombre" class="form-control" id="inputPassword1"
+                      v-model="registrar_user_nombre">
+                  </div>
+                  <div class="form-group pb-3">
+                    <label for="inputPassword2">Apellido *</label>
+                    <input type="text" placeholder="Apellido" class="form-control" id="inputPassword2"
+                      v-model="registrar_user_apellido">
+                  </div>
+                  <section class="row">
+                    <div class="col-lg-6">
+                      <h6>Tenes Mascota?</h6>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                          Perro
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                        <label class="form-check-label" for="flexCheckChecked">
+                          Gato
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked1">
+                        <label class="form-check-label" for="flexCheckChecked1">
+                          Otro
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <h6>Sexo de la mascota</h6>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckHembra">
+                        <label class="form-check-label" for="flexCheckHembra">
+                          Hembra
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckMacho">
+                        <label class="form-check-label" for="flexCheckMacho">
+                          Macho
+                        </label>
+                      </div>
+                    </div>
+                  </section>
+                </form>
+              </div>
+              <div v-if="registrar_user_email != '' && registrar_user_nombre != '' && registrar_user_apellido != '' "
+                class="pb-2">
+                <button type="submit" class="btn btn-dark w-100 font-weight-bold mt-2" id="mailenviadobutton"
+                  v-on:click="mostrarNotificacionMail()">Registrar</button>
+              </div>
+              <div v-else class="pb-2">
+                <button type="submit" class="btn btn-dark w-100 font-weight-bold mt-2" id="mailenviadobutton"
+                  disabled>Registrar</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div v-else class="container col-lg-6 col-12 d-flex flex-column align-items-center">
+          <div class="pt-5">
+            <h3 class="pt-5">GRACIAS POR REGISTRARSE</h3>
+          </div>
+          <div class=" pt-3 ">
+            <img src="./img/LOGO_2.png" alt="asdad">
+          </div>
+          
+        </div>
+      </div>
+
+
+      <div class="floating-container">
+        <div class="floating-button"><i class="fa-solid fa-shield-dog"></i></div>
+        <div class="element-container">
+
+          <a href="https://maps.google.com/maps/dir//R%C3%ADo+de+Janeiro+300+C1405CCB+CABA/@-34.6120774,-58.4303837,16z/data=!4m5!4m4!1m0!1m2!1m1!1s0x95bcca429815227f:0x5d302e497c2cda87"
+            target="_blank"><span class="float-element"><i class="material-icons">location_on</i></a>
+          </span>
+          <a href="https://wa.link/e9jfcv" target="_blank"> <span class="float-element tooltip-left">
+              <i class="material-icons">whatsapp</i></a>
+          </span>
+          <a href="mailto:francopetshop07@gmail.com" target="_blank"><span class="float-element"><i
+                class="material-icons">email</i></a>
+          </span>
+        </div>
+      </div>
+
+      <!-- OFF CANVAS -->
+
+      <!-- CANVAS  -->
+      <!-- Canvas Favoritos -->
+      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasFavoritos" aria-labelledby="offcanvasRightLabel">
+        <!-- Canvas Header -->
+        <div class="offcanvas-header">
+          <h5 id="offcanvasRightLabel">Tus productos favoritos añadidos</h5>
+          <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+
+        </div>
+        <!-- Canvas Body Favoritos  -->
+        <div class="offcanvas-body">
+          <ul class="list-group shadow">
+            <!-- Productos Favoritos -->
+            <li class="list-group-item" v-for="producto in productosFavoritos">
+              <div class="p-3 row">
+                <div class="col-7">
+                  <h6 class="mt-0 font-weight-bold mb-2">{{producto.nombre}}</h6>
+                  <h6 class="font-weight-bold my-2 text-success">${{producto.precio}}</h6>
+                  <a href="#" v-on:click="removerFavorito(producto)" class="text-decoration-none text-danger"><i
+                      class="fas fa-heart-crack text-danger fa-1x"></i> Eliminar</a>
+                </div>
+                <div class="col-5">
+                  <img v-bind:src="producto.imagen" alt="Generic placeholder image" width="100"
+                    class="ml-lg-5 order-1 order-lg-2">
+
+                </div>
+              </div>
+            </li>
+          </ul>
+          <!-- <button type="button" class="btn btn-primary" id="liveToastBtn"><i class="fas fa-shopping-cart p-2"></i></button> -->
+        </div>
+      </div>
+
+      <!-- Canvas Productos -->
+      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasCarrito" aria-labelledby="offcanvasRightLabel">
+        <div class="offcanvas-header">
+          <h5 id="offcanvasRightLabel">Tu carrito de Compra</h5>
+          <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <!-- Canvas Body Productos  -->
+
+        <div class="offcanvas-body">
+          <!-- Productos Carrito -->
+          <div v-if="!productosCarrito.length>0">
+            <div class="divGatitoLlorando">
+              <p>No tienes ningun producto. Agrega alguno!</p>
+
+              <img src="./img/gatitollorando.gif" alt="sinCompras">
+            </div>
+
+          </div>
+          <ul v-else class="list-group shadow">
+            <!-- Productos Carrito -->
+            <li class="list-group-item" v-for="producto in productosCarrito">
+              <div class="p-2 row">
+
+                <div class="col-8">
+                  <h6 class="font-weight-bold mb-2">{{producto.nombre}}</h6>
+                  <h6 class="font-weight-bold my-2 text-success">${{producto.precio}}</h6>
+                  <div class="d-flex justify-content-start">
+                    <p> Cantidad:
+                      <!-- botones sumar cantidad -->
+                      <button type="button" class="btn btn-danger btn-circle" @click="minimo(producto)"
+                        v-if="producto.__v <= 1" disabled><i class="fa fa-times"></i></button>
+                      <button type="button" class="btn btn-warning btn-circle" @click="minimo(producto)" v-else><i
+                          class="fa fa-minus"></i></button>
+
+                      <!-- cantidad -->
+                      <span class="ps-2 pe-2">{{producto.__v}}</span>
+
+                      <!-- botones restar cantidad -->
+                      <button type="button" class="btn btn-success btn-circle" @click="maximo(producto)"
+                        v-if="producto.__v < producto.stock"><i class="fa-solid fa-plus"></i></button>
+                      <button type="button" class="btn btn-success btn-circle" disabled v-else><i
+                          class="fa-solid fa-plus"></i></button>
+
+                    </p>
+                  </div>
+                  <!-- <input type="number" id="tentacles" name="tentacles" min="1" v-bind:max="producto.stock" v-model="stockPedido"> -->
+                  <a href="#" v-on:click="removerItemCarrito(producto)" class="text-decoration-none text-danger"> <i
+                      class="fas fa-trash text-danger fa-1x"> </i>Eliminar</a>
+                </div>
+                <div class="col-4">
+                  <img v-bind:src="producto.imagen" alt="Generic placeholder image" width="100"
+                    class="ml-lg-5 order-1 order-lg-2">
+                </div>
+              </div>
+            </li>
+          </ul>
+          <div v-if="productosCarrito.length>0" class="row d-flex align-items-center">
+            <h5> Total: $ {{getAdd()}} </h5>
+            <button type="button" class="btn btn-warning btn-lg btn-block mb-1" v-on:click="vaciarCarrito()">Vaciar
+              carrito</button>
+            <!-- <button type="button" class="btn btn-success btn-lg btn-block" id="mostrarNotificacionCompraRealizada"
+             v-on:click="mostrarNotificacionCompraRealizada();">Realizar pago</button> -->
+            <button type="button" class="btn btn-success btn-lg btn-block" data-bs-toggle="modal"
+              data-bs-target="#modalCompraFinalizada" v-on:click="compraFinalizada()">
+              Realizar Compra
+            </button>
+          </div>
+          <div v-else class="row d-flex align-items-center">
+            <button type="button" class="btn btn-warning btn-lg btn-block mb-1" disabled v-on:click="vaciarCarrito()">Vaciar
+              carrito</button>
+            <!-- <button type="button" class="btn btn-success btn-lg btn-block" id="mostrarNotificacionCompraRealizada"
+             v-on:click="mostrarNotificacionCompraRealizada();">Realizar pago</button> -->
+            <button type="button" class="btn btn-success btn-lg btn-block" disabled data-bs-toggle="modal"
+              data-bs-target="#modalCompraFinalizada" v-on:click="compraFinalizada()">
+              Realizar Compra
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- NOTIFICACIONES -->
+      <!-- NOTIFICACION PRODUCTO FAVORITO AGREGADO -->
+      <section>
+        <div class="posicionNotificacion  position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+          <div id="liveToast1" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+              <img src="./img/LOGO_2.png" class="rounded me-2" alt="...">
+              <strong class="me-auto">Franco PetShop</strong>
+              <small>Hace 1 segundo</small>
+              <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body  bg-dark text-white">
+              <p>El producto: {{productosFavoritos[productosFavoritos.length - 1]?.nombre}} fue agregado a favoritos.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- NOTIFICACION PRODUCTO CARRITO AGREGADO -->
+        <div class="posicionNotificacion  position-fixed bottom-0 end-0 p-3" style="z-index: 12">
+          <div id="liveToast2" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+              <img src="./img/LOGO_2.png" class="rounded me-2" alt="...">
+              <strong class="me-auto">Franco PetShop</strong>
+              <small>Hace 1 segundo</small>
+              <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body bg-success text-white">
+              <p>El producto: {{productosCarrito[productosCarrito.length - 1]?.nombre}} fue agregado a tu carrito.</p>
+            </div>
+          </div>
+        </div>
+        <div>
+        </div>
+
+        <div class="posicionNotificacion  position-fixed p-3 top-50 start-50 translate-middle " style="z-index: 12">
+          <div id="liveToast3" class="toast bg-white" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+              <img src="./img/LOGO_2.png" class="rounded me-2" alt="...">
+              <strong class="me-auto">Franco PetShop</strong>
+              <small>Hace 1 segundo</small>
+              <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+              <p>Muchas gracias por su compra! </p>
+              <p>Total de su compra: $ {{sumaAux}} </p>
+            </div>
+            <div class="toast-body">
+              <p>Usted realizó una compra de los siguientes productos</p>
+              <ul>
+                <li v-for="productos in contadorProductosComprados()">{{productos.nombre}}</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div>
+        </div>
+        <section>
+          <!-- NOTIFICACION COMPRA REALIZADA -->
+          <div id="modalCompraFinalizada" class="modal fade">
+            <div class="modal-dialog modal-confirm">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <div class="icon-box">
+                    <i class="material-icons">&#xE876;</i>
+                  </div>
+                  <h4 class="modal-title w-100">Muchas gracias por su compra!</h4>
+                </div>
+                <div class="modal-body">
+                  <p>Usted realizó una compra de los siguientes productos:</p>
+                  <ul>
+                    <li v-for="productos in contadorProductosComprados()">{{productos.nombre}}</li>
+                  </ul>
+                  <p class="text-end">Total de su compra: ${{getAdd()}}</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-success " v-on:click="vaciarCarrito(); refrescarPagina();"
+                    data-bs-dismiss="modal">Continuar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="posicionNotificacionRegistrar position-fixed top-2 end-0" style="z-index: 11">
+          <div id="mailenviado" class="toast bg-transparent text-dark" role="alert" aria-live="assertive"
+            aria-atomic="true">
+            <div class="toast-header">
+              <img src="./img/LOGO_2.PNG" class="rounded me-2" alt="...">
+              <strong class="me-auto bg-white">Franco | PetShop</strong>
+              <small class="text-muted ">Hace 1 segundo</small>
+              <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+              Email enviado
+            </div>
+          </div>
+        </div>
+        <!-- OFF CANVAS -->
+
+    </main>
+
+    <footer class="text-white text-center text-lg-start bg-dark">
+      <!-- Grid container -->
+      <div class="container p-4">
+        <!--Grid row-->
+        <div class="row mt-4">
+          <!--Grid column-->
+          <div class="col-lg-4 col-md-12 mb-4 mb-md-0">
+            <h5 class="text-uppercase mb-4 text-center"><i class="fa-solid fa-users"></i>&nbsp;Sobre Nosotros</h5>
+            <ul class="ul-footer">
+              <li><i class="fa-brands fa-whatsapp"></i> +54 0303 456000</li>
+              <li><i class="fa-solid fa-paper-plane"></i> francopetshop07@gmail.com</li>
+              <li><i class="fa-solid fa-location-dot"></i> Ri­o de Janeiro 300,CABA</li>
+              <br>
+              <li><img src="./img/creditCard.png" alt="creditcards"></li>
+            </ul>
+
+          </div>
+          <!--Grid column-->
+          <!--Grid column-->
+          <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
+            <h5 class="text-uppercase mb-4 text-center"><i
+                class="fa-solid fa-circle-info text-center"></i></i>&nbsp;Informacion</h5>
+            <ul class="contactoFooter text-start">
+              <li><a href="./contacto.html">Contactanos</a></li>
+              <li><a href="./farmacia.html">Farmacia</a></li>
+              <li><a href="./juguetes.html">Juguetes</a></li>
+              <li><a href="#">Ingreso a mi Usuario</a></li>
+            </ul>
+            <h5 class="text-uppercase mb-4 text-center"><i class="fa-solid fa-clock-rotate-left"></i>&nbsp;Nuestros
+              horarios</h5>
+            <table class="table text-center text-white">
+              <tbody class="fw-normal">
+                <tr>
+                  <td>Lun - Vie:</td>
+                  <td>9am - 9pm</td>
+                </tr>
+                <tr>
+                  <td>Sabados:</td>
+                  <td>8am - 13pm</td>
+                </tr>
+                <tr>
+                  <td>Domingos:</td>
+                  <td>Cerrado</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!--Grid column-->
+          <!--Grid column-->
+          <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
+            <a href="https://www.instagram.com/francopetshop07/" target="_blank"> <h5 class="text-uppercase mb-4 pb-1 text-center"><i class="fa-brands fa-instagram"></i>&nbsp;Instagram</h5></a>
+            <div class="row">
+              <div class="col-4 imgInstaDiv"><img src="./img/insta1.jpg" alt="imgInsta1"></div>
+              <div class="col-4 imgInstaDiv"><img src="./img/insta3.jpg" alt="imgInsta3"></div>
+              <div class="col-4 imgInstaDiv"><img src="./img/insta2.jpg" alt="imgInsta2"></div>
+            </div>
+
+            <div class="row">
+              <div class="col-4 imgInstaDiv"><img src="./img/insta3.jpg" alt="imgInsta3"></div>
+              <div class="col-4 imgInstaDiv"><img src="./img/insta2.jpg" alt="imgInsta2"></div>
+              <div class="col-4 imgInstaDiv"><img src="./img/insta1.jpg" alt="imgInsta1"></div>
+            </div>
+
+          </div>
+          <!--Grid column-->
+        </div>
+        <!--Grid row-->
+      </div>
+      <!-- Grid container -->
+
+      <!-- Copyright -->
+      <div class="text-center p-3">
+        © 2022 Copyright:
+        <a class="text-white" href="./perlaNegra.html">Perla Negra - Web Developers</a>
+      </div>
+      <!-- Copyright -->
+    </footer>
+  </div>
+  <script src="https://unpkg.com/vue@3"></script>
+  <script src="./data/main.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
